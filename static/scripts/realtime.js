@@ -1,17 +1,17 @@
 'use strict'
 class Realtime {
-    constructor(URL,WaitingTime, LastWaitingTime, Start){
+    constructor(URL,WaitingTime, LastWaitingTime, Enabled, DoFunc){
         this.URL = URL;
         this.WaitingTime = WaitingTime;
         this.LastWaitingTime = LastWaitingTime;
-        this.Start = Start;
+        this.Enabled = Enabled;
         this.controller = new AbortController(); // AbortController oluşturuldu
-
-        if (this.Start) {
+        this.DoFunc = DoFunc;
+        if (this.Enabled) {
             this.start();
         }
     }
-
+    
     start(){
         console.log("istek atıldı.")
         this.controller = new AbortController();
@@ -31,7 +31,9 @@ class Realtime {
         })
         .then(data => {
             // Alınan veriyle yapılacak işlemler
-            console.log(data);
+            // console.log(data);
+            this.DoFunc(data);
+
         })
         .catch(error => {
             if (error.name === 'AbortError') {
