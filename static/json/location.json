@@ -1,0 +1,22 @@
+{
+    "Vehicle": [
+      {
+        "vehicleName": "Araç 1",
+        "vehicleColor": "Kirmizi",
+        "vehicleLat": "34.258",
+        "vehicleLon": "40.321"
+      },
+      {
+        "vehicleName": "Araç 2",
+        "vehicleColor": "Mavi",
+        "vehicleLat": "32.258",
+        "vehicleLon": "39.211"
+      },
+      {
+        "vehicleName": "Araç 3",
+        "vehicleColor": "Gri",
+        "vehicleLat": "30.258",
+        "vehicleLon": "37.211"
+      }
+    ]
+  }
