@@ -5,7 +5,7 @@ class Realtime {
         this.WaitingTime = WaitingTime;
         this.LastWaitingTime = LastWaitingTime;
         this.Enabled = Enabled;
-        this.controller = new AbortController(); // AbortController oluşturuldu
+        this.controller = new AbortController(); // Zaman aşımında tekrardan fonksiyona başlamak için AbortController oluşturuldu.
         this.DoFunc = DoFunc;
         this.listeners = {}; // Olay dinleyicilerini saklamak için bir nesne oluşturuldu
 
@@ -28,10 +28,6 @@ class Realtime {
         }
     }
 
-    yazdir(){
-        this.trigger("yasin","");
-    }
-
     start(){
         this.trigger("fetch_start");
         this.controller = new AbortController();
@@ -41,7 +37,7 @@ class Realtime {
 
         fetch(this.URL, { signal: this.controller.signal })
         .then(response => {
-            clearTimeout(timeout); // İşlem tamamlandığında zaman aşımı süresini iptal et
+            clearTimeout(timeout); // İşlem tamamlandığında zaman aşımı süresini sıfırla
             if(response.ok){
                 return response.json();
             }
@@ -50,10 +46,7 @@ class Realtime {
             }
         })
         .then(data => {
-            // Alınan veriyle yapılacak işlemler
-            // console.log(data);
             this.DoFunc(data);
-
         })
         .catch(error => {
             if (error.name === 'AbortError') {
@@ -65,7 +58,7 @@ class Realtime {
         .finally(() => {
             this.trigger("fetch_end");
             setTimeout(() => {
-                this.start(); // Arrow function kullanarak doğru bağlamı koru
+                this.start();
             }, this.WaitingTime);
         });
     }
