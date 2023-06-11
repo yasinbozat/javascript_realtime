@@ -7,13 +7,33 @@ class Realtime {
         this.Enabled = Enabled;
         this.controller = new AbortController(); // AbortController oluşturuldu
         this.DoFunc = DoFunc;
+        this.listeners = {}; // Olay dinleyicilerini saklamak için bir nesne oluşturuldu
+
         if (this.Enabled) {
             this.start();
         }
     }
     
+    on(event, callback) {
+        if (!this.listeners[event]) {
+            this.listeners[event] = []; // Yeni bir olaya ait boş bir dizi oluşturuldu
+        }
+        this.listeners[event].push(callback); // Olay dinleyicisini diziye ekle
+    }
+
+    trigger(event, data) {
+        const eventListeners = this.listeners[event];
+        if (eventListeners) {
+            eventListeners.forEach(callback => callback(data)); // Olay dinleyicilerini tetikle
+        }
+    }
+
+    yazdir(){
+        this.trigger("yasin","");
+    }
+
     start(){
-        console.log("istek atıldı.")
+        this.trigger("fetch_start");
         this.controller = new AbortController();
         const timeout = setTimeout(() => {
             this.controller.abort(); // Zaman aşımı süresi aşıldığında işlemi iptal et
@@ -43,6 +63,7 @@ class Realtime {
               }
         })
         .finally(() => {
+            this.trigger("fetch_end");
             setTimeout(() => {
                 this.start(); // Arrow function kullanarak doğru bağlamı koru
             }, this.WaitingTime);

@@ -17,3 +17,12 @@ var myRealTimeShip = new Realtime(
         document.getElementById("ship").innerHTML = JSON.stringify(data);
     }
 );
+
+
+myRealTime.on("fetch_start", function() {
+    console.log("İşleme başlandı.");
+});
+
+myRealTime.on("fetch_end", function() {
+    console.log("İşlem sonuçlandı.");
+});

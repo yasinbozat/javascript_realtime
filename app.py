@@ -9,6 +9,7 @@ def home():
 
 @app.route('/json/<path:filename>')
 def serve_scripts(filename):
+    time.sleep(12)
     return send_from_directory('static/json', filename)
 
 if __name__ == '__main__':
